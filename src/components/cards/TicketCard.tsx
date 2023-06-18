@@ -59,13 +59,15 @@ const TicketCard = ({
       console.log('error: ', error);
     }
   };
-    // qr code image data if requested
-    const [qr_code, setQRcode] = useState('');
+  // qr code image data if requested
+  const [qr_code, setQRcode] = useState('');
 
-    // watch qr code button event
-    const watchQRcode = async (ticketId) => {
-      setQRcode(await renderQRcode(ticketId, 'data'));
-    }
+  // watch qr code button event
+  //@ts-ignore
+  const watchQRcode = async (ticketId) => {
+    //@ts-ignore
+    setQRcode(await renderQRcode(ticketId, 'data'));
+  };
 
   // mint nft event
   const mintNFT = async () => {
@@ -94,15 +96,15 @@ const TicketCard = ({
   // render button on ticket
   console.log(minted);
   const renderButton = () => {
+    //@ts-ignore
     const search = minted.find((value) => value.ticket_id === ticketId);
 
     if (search) {
       return (
         <a
           className='w-40 bg-[#fff] text-gray-800 text-base py-1.5 px-2 rounded-2xl hover:bg-gray-100 hover:border-none shadow-xl font-semibold'
-          href={`https://explorer.celo.org/alfajores/token/${TicketNFTAddress.toLowerCase()}/instance/${
-            search.token_id
-          }`}
+          //@ts-ignore
+          href={`https://explorer.celo.org/alfajores/token/${TicketNFTAddress.toLowerCase()}/instance/${search.token_id}`}
           target='_blank'
         >
           Watch Ticket
@@ -125,7 +127,7 @@ const TicketCard = ({
   useEffect(() => {
     const loadData = async () => {
       await fetchMinted();
-      await watchQRcode(ticketId)
+      await watchQRcode(ticketId);
     };
     fetchMinted();
   }, [connectedAccount]);
@@ -163,8 +165,10 @@ const TicketCard = ({
           <div className='flex  justify-between'>
             <button
               className='w-40 my-2 bg-[#fff] text-gray-800 text-base rounded-2xl hover:bg-gray-100 hover:border-none shadow-xl font-semibold'
-              onClick={() => {setGlobalState('modalQr', 'scale-100'); watchQRcode(Number(ticketId));}}
-
+              onClick={() => {
+                setGlobalState('modalQr', 'scale-100');
+                watchQRcode(Number(ticketId));
+              }}
             >
               Watch QR
             </button>
@@ -186,7 +190,9 @@ const TicketCard = ({
                   type='button'
                   className='w-40 bg-[#fff] text-gray-800 text-base py-1.5 px-2 rounded-2xl hover:bg-gray-100 hover:border-none shadow-xl font-semibold'
                   onClick={() => {
-                    handlePurchase(), setGlobalState('ticket_id', Number(ticketId));
+                    handlePurchase(),
+                    //@ts-ignore
+                      setGlobalState('ticket_id', Number(ticketId));
                   }}
                 >
                   Book now
@@ -196,7 +202,7 @@ const TicketCard = ({
           )}
         </div>
       </div>
-      <ShowRQ qr_code={qr_code}/>
+      <ShowRQ qr_code={qr_code} />
     </div>
   );
 };

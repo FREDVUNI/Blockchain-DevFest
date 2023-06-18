@@ -1,4 +1,3 @@
-import { Ticket } from '@/components/Events';
 import { ethers } from 'ethers';
 import { fromWei, toWei } from 'web3-utils';
 import QRCode from 'qrcode';
@@ -117,9 +116,10 @@ export const buyTicket = async (
       from: connectedAccount,
       value: ticketPrice,
     });
-    if (bought) {
-      const image_hash = await uploadTicketImage(connectedAccount, Number(ticket_id));
-      await uploadJson(Number(ticket_id), image_hash);
+    //@ts-ignore
+    const image_hash = await uploadTicketImage(connectedAccount, Number(ticket_id));
+   const result =  await uploadJson(Number(ticket_id), image_hash);
+    if (bought && result) {
       setAlert('Ticket bought successfully', 'green');
     }
   } catch (error) {
@@ -237,8 +237,9 @@ const singleEvent = async(id:any)=>{
 
   if (!yobookingContract) return;
   // fetch all events
+  //@ts-ignore
   const myEvent = allEvents.find((event) => event?.eventId === BigInt(id))
-  console.log("event", myEvent);
+//@ts-ignore
   setGlobalState('sinleEvent',myEvent)
   
 }
@@ -307,6 +308,7 @@ export const getMyTickets = async () => {
 
       //@ts-ignore
       console.log('allMyTickets',allMyTickets );
+      //@ts-ignore
       
       setGlobalState('myTickets', structuredTicket(allMyTickets));
 
@@ -319,6 +321,8 @@ export const getMyTickets = async () => {
 };
 
 // QRHelper
+//@ts-ignore
+
 export const renderQRcode = async (ticket_id, type = 'blob') => {
   const address = getGlobalState('connectedAccount');
 
@@ -351,12 +355,14 @@ export const renderQRcode = async (ticket_id, type = 'blob') => {
     if (type === 'data') return canvas.toDataURL();
 
     return new Promise((resolve) => {
+    //@ts-ignore
       canvas.toBlob(resolve);
     });
   });
 };
 
 // upload image to pinata, result will be ipfs hash
+//@ts-ignore
 export const uploadTicketImage = async (ticket_id) => {
   const address = getGlobalState('connectedAccount');
 
@@ -364,6 +370,7 @@ export const uploadTicketImage = async (ticket_id) => {
 
   try {
     const data = new FormData();
+    //@ts-ignore
     data.append('file', buffer, {
       filepath: `ticket${ticket_id}.jpg`,
     });
@@ -372,8 +379,10 @@ export const uploadTicketImage = async (ticket_id) => {
       'https://api.pinata.cloud/pinning/pinFileToIPFS',
       data,
       {
+      //@ts-ignore
         maxBodyLength: 'Infinity',
         headers: {
+      //@ts-ignore
           'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
           Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIzNDRmNjBiYS1kZjA4LTQ0ZWYtOTI1Zi1lODZlNmQwYzc5YzUiLCJlbWFpbCI6ImdhbGllbmNvZGVzMTNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjkzNmJlOTcxMDcwYzExZDFlMTdiIiwic2NvcGVkS2V5U2VjcmV0IjoiNDUxNDNkM2Q5OWQ3NWI5YzVmYmQ4NzY0MDgzNDE3YTcwMDgyNmRjNjIwNmQ2MGM2OGVhMWI4ZTYyOWYwYzc0YiIsImlhdCI6MTY4MzczOTkwOH0.9zprp48nJb9YH9Fq_ExRr1VC3y0heRp5EIAiGHWBzRs'}`,
         },
@@ -387,6 +396,7 @@ export const uploadTicketImage = async (ticket_id) => {
 };
 
 // upload json to pinata, result will be ipfs hash
+//@ts-ignore
 export const uploadJson = async (ticket_id, hash) => {
   var data = JSON.stringify({
     pinataOptions: {

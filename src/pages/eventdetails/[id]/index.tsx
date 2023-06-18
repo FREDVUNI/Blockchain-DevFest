@@ -13,11 +13,12 @@ const Eventdetails = () => {
   const { id } = router.query;
   const [sinleEvent] = useGlobalState('sinleEvent')
   const eventDetails = sinleEvent
-  console.log("sinleEvent",sinleEvent);
+  console.log("sinleEvent ",sinleEvent);
   
   const [active, setActive] = useState(false);
-
+//@ts-ignore
   const avialableSilverTickets = eventDetails?.silverTickets;
+  //@ts-ignore
   const avialableVipTickets = eventDetails?.vipTickets;
 
   const numAvSilverTickets = avialableSilverTickets?.filter(
@@ -35,12 +36,10 @@ const Eventdetails = () => {
   );
   const oneHour = new Date(
     new Date().setMinutes(
-      new Date().getMinutes() -
-        -minutesRemaining(Number(eventDetails?.sellingDuration)).minutes
+      //@ts-ignore
+      new Date().getMinutes() - -minutesRemaining(Number(eventDetails?.sellingDuration)).minutes
     )
   );
-
-
 
   useEffect(()=>{
     const loadData = async()=>{
@@ -115,7 +114,9 @@ const Eventdetails = () => {
                               category={category}
                               eventDate={eventDate}
                               sold={sold}
+                              //@ts-ignore
                               eventVenue={
+                                //@ts-ignore
                                 eventDetails && eventDetails?.eventVenue
                               }
                               eventId={eventId}
@@ -123,6 +124,7 @@ const Eventdetails = () => {
                               ticketId={ticketId}
                               ticketPrice={ticketPrice}
                               completed={active}
+                              //@ts-ignore
                               eventOwner={eventDetails.eventOwner}
                               key={i + 1}
                             />
@@ -172,7 +174,9 @@ const Eventdetails = () => {
                               category={category}
                               eventDate={eventDate}
                               sold={sold}
+                              //@ts-ignore
                               eventVenue={
+                                //@ts-ignore
                                 eventDetails && eventDetails?.eventVenue
                               }
                               eventId={eventId}
@@ -180,6 +184,7 @@ const Eventdetails = () => {
                               ticketId={ticketId}
                               ticketPrice={ticketPrice}
                               completed={active}
+                              //@ts-ignore
                               eventOwner={eventDetails.eventOwner}
                               key={i + 1}
                             />

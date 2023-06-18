@@ -114,6 +114,7 @@ const Ticket = ({
                   type='button'
                   className='w-40 bg-[#fff] text-gray-800 text-base py-1.5 px-2 rounded-2xl hover:bg-gray-100 hover:border-none shadow-xl font-semibold'
                   onClick={() => {
+                    //@ts-ignore
                     handlePurchase(), setGlobalState('ticket_id', Number(ticketId));
                   }}
                 >
