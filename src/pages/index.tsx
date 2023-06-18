@@ -12,8 +12,6 @@ export default function Home() {
     const loadData = async () => {
       await getAllEvents();  
       getMyEvents()
-      // await singleEvent();  
-      
      };
     loadData();
   }, [connectedAccount]);
