@@ -55,6 +55,7 @@ const Eventdetails = () => {
         <div className=' flex flex-col justify-center'>
           <div className='flex justify-between'>
             <h2 className=' font-semibold text-xl text-center'>
+              {/* @ts-ignore */}
               {eventDetails?.eventName}
             </h2>
             <Countdown
