@@ -6,8 +6,6 @@ import { useGlobalState } from 'store';
 
 export default function Home() {
   const connectedAccount = useGlobalState('connectedAccount')
-  
-
   useEffect(() => {
     const loadData = async () => {
       await getAllEvents();  
