@@ -39,8 +39,6 @@ const EventCard = ({
       new Date().getMinutes() - -minutesRemaining(Number(sellingDuration)).minutes
     )
   ).toISOString();
-  // console.log('sellingDuration=>',typeof(sellingDuration));
-  
 
   return (
     <div className='bg-[#2db369] shadow-md rounded py-4 px-4 text-white'>

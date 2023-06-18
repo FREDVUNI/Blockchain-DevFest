@@ -136,6 +136,7 @@ const NavBar = () => {
     const signer  = web3Provider.getSigner();
     const address = await signer.getAddress();
     setGlobalState('connectedAccount', address)
+    //@ts-ignore
     setGlobalState('signer', signer)
     const network = await web3Provider.getNetwork();
 
