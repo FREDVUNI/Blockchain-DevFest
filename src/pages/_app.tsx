@@ -1,4 +1,4 @@
-import { getAllEvents, getMyEvents, getMyTickets, mintsByUser } from '@/Blockchain';
+import { getAllEvents, getMyEvents, getMyTickets } from '@/Blockchain';
 import AddEvent from '@/components/AddEvent';
 import Alert from '@/components/Alert';
 import ClientOnly from '@/components/ClientOnly';
@@ -6,7 +6,6 @@ import Footer from '@/components/Footer';
 import LoadData from '@/components/LoadData';
 import Loading from '@/components/Loading';
 import NavBar from '@/components/NavBar';
-import ShowRQ from '@/components/ShowRQ';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
