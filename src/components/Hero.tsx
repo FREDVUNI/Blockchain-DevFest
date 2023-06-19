@@ -4,7 +4,6 @@ import toast from 'react-hot-toast';
 import { initialState, reducer } from './NavBar';
 import { setGlobalState, useGlobalState } from 'store';
 function Hero() {
- 
   const [connectedAccount] = useGlobalState('connectedAccount');
 
   return (
@@ -28,7 +27,9 @@ function Hero() {
                 <button
                   className='px-4 py-2 rounded cursor-pointer bg-gray-900 text-white'
                   type='button'
-                  onClick={() => {setGlobalState('modal', 'scale-100')}}
+                  onClick={() => {
+                    setGlobalState('modal', 'scale-100');
+                  }}
                 >
                   Add Event
                 </button>
@@ -37,8 +38,6 @@ function Hero() {
                   disabled
                   className='px-4 py-2 rounded bg-gray-900 text-white'
                   type='button'
-                  onClick={() =>{ console.log("clicked")
-                  }}
                 >
                   Add Event
                 </button>

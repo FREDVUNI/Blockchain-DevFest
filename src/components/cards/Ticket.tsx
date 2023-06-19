@@ -22,7 +22,7 @@ interface ITicketCard {
   category: string;
   eventDate?: number | undefined;
   eventTitle: string;
-  sold: boolean;
+  isSold: boolean;
   ticketId: number;
   ticketPrice: string;
   eventVenue: string;
@@ -35,7 +35,7 @@ const Ticket = ({
   category,
   eventDate,
   eventId,
-  sold,
+  isSold,
   eventVenue,
   eventTitle,
   ticketId,
@@ -43,24 +43,18 @@ const Ticket = ({
   completed,
   eventOwner,
 }: ITicketCard) => {
-  const router = useRouter();
   const [connectedAccount] = useGlobalState('connectedAccount');
-  const [minted, setMinted] = useState([]);
-  console.log('loging it ', ticketId);
 
   const checkOwner =
     connectedAccount?.toLocaleLowerCase() == eventOwner?.toLocaleLowerCase();
-  const handlePurchase = async () => {
+  const handlePurchase = async (ticketId: any) => {
     try {
-      const purchase = await buyTicket(eventId, category, ticketPrice);
-
-      // router.push('/myTickets');
+      await buyTicket(eventId, category, ticketPrice, ticketId);
     } catch (error) {
       console.log('error: ', error);
     }
   };
-    // qr code image data if requested
-    const [qr_code, setQRcode] = useState('');
+  // qr code image data if requested
   useEffect(() => {
     const loadData = async () => {
       await fetchMinted();
@@ -99,7 +93,7 @@ const Ticket = ({
             <span className='font-bold'> {eventVenue && eventVenue}</span>
           </h2>
 
-          {completed && !sold ? (
+          {completed && !isSold ? (
             <button
               type='button'
               className='w-40 bg-[#fff] text-gray-800 text-base py-1.5 px-2 rounded-2xl shadow-xl font-semibold'
@@ -107,7 +101,7 @@ const Ticket = ({
             >
               Not selling
             </button>
-          ) : sold && sold ? null : (
+          ) : isSold && isSold ? null : (
             <>
               {checkOwner ? null : (
                 <button
@@ -115,7 +109,7 @@ const Ticket = ({
                   className='w-40 bg-[#fff] text-gray-800 text-base py-1.5 px-2 rounded-2xl hover:bg-gray-100 hover:border-none shadow-xl font-semibold'
                   onClick={() => {
                     //@ts-ignore
-                    handlePurchase(), setGlobalState('ticket_id', Number(ticketId));
+                    handlePurchase(ticketId);
                   }}
                 >
                   Book now
@@ -125,7 +119,6 @@ const Ticket = ({
           )}
         </div>
       </div>
-      <ShowRQ qr_code={qr_code}/>
     </div>
   );
 };

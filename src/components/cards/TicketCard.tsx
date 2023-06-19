@@ -1,14 +1,13 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { FaTicketAlt } from 'react-icons/fa';
+import { TbExternalLink } from 'react-icons/tb';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
 
 import { useRouter } from 'next/router';
 import { displayData, setGlobalState, useGlobalState } from 'store';
 import {
   TicketNFTAddress,
-  buyTicket,
-  fetchMinted,
   mintsByUser,
   renderQRcode,
   safeMint,
@@ -22,55 +21,34 @@ interface ITicketCard {
   category: string;
   eventDate?: number | undefined;
   eventTitle: string;
-  sold: boolean;
   ticketId: number;
   ticketPrice: string;
   eventVenue: string;
   eventId: number;
   completed: boolean;
-  eventOwner: string;
+  owner: string;
 }
 
 const TicketCard = ({
   category,
   eventDate,
-  eventId,
-  sold,
   eventVenue,
   eventTitle,
   ticketId,
   ticketPrice,
-  completed,
-  eventOwner,
 }: ITicketCard) => {
   const router = useRouter();
   const [connectedAccount] = useGlobalState('connectedAccount');
   const [minted, setMinted] = useState([]);
-  console.log('loging it ', ticketId);
-
-  const checkOwner =
-    connectedAccount?.toLocaleLowerCase() == eventOwner?.toLocaleLowerCase();
-  const handlePurchase = async () => {
-    try {
-      const purchase = await buyTicket(eventId, category, ticketPrice);
-
-      // router.push('/myTickets');
-    } catch (error) {
-      console.log('error: ', error);
-    }
-  };
-  // qr code image data if requested
-  const [qr_code, setQRcode] = useState('');
-
+  
   // watch qr code button event
   //@ts-ignore
   const watchQRcode = async (ticketId) => {
     //@ts-ignore
-    setQRcode(await renderQRcode(ticketId, 'data'));
+    setGlobalState('qr_code',await renderQRcode(Number(ticketId), 'data'));
   };
-
   // mint nft event
-  const mintNFT = async () => {
+  const mintNFT = async (ticketId: number) => {
     // upload ticket qr code image to pinata
     // it have been already uploaded so pinata does not upload it again
     // and only returns it's ipfs hash
@@ -94,46 +72,44 @@ const TicketCard = ({
     setMinted(mints);
   };
   // render button on ticket
-  console.log(minted);
-  const renderButton = () => {
+    //@ts-ignore
+  const renderButton = (ticketId) => {
     //@ts-ignore
     const search = minted.find((value) => value.ticket_id === ticketId);
 
     if (search) {
       return (
         <a
-          className='w-40 bg-[#fff] text-gray-800 text-base py-1.5 px-2 rounded-2xl hover:bg-gray-100 hover:border-none shadow-xl font-semibold'
-          //@ts-ignore
-          href={`https://explorer.celo.org/alfajores/token/${TicketNFTAddress.toLowerCase()}/instance/${search.token_id}`}
+          className='w-40 flex justify-between items-center px-3 py-1 bg-[#000] text-center text-gray-50 text-base   rounded-2xl hover:bg-gray-700 hover:border-none shadow-xl font-medium'
+          href={`https://explorer.celo.org/alfajores/token/${TicketNFTAddress.toLowerCase()}/instance/${
+            //@ts-ignore
+            search.token_id
+          }`}
           target='_blank'
         >
-          Watch Ticket
+          View Ticket <TbExternalLink/>
         </a>
       );
     } else {
       return (
         <button
-          className='w-40 bg-[#fff] text-gray-800 text-base   rounded-2xl hover:bg-gray-100 hover:border-none shadow-xl font-semibold'
+          className='w-40 bg-gray-700 text-gray-50 text-base py-1 rounded-2xl hover:bg-gray-400 hover:border-none shadow-xl font-medium'
           onClick={() => {
-            mintNFT();
+            mintNFT(ticketId);
           }}
         >
-          Mint Ticket NFT
+          Mint Ticket
         </button>
       );
     }
   };
 
   useEffect(() => {
-    const loadData = async () => {
-      await fetchMinted();
-      await watchQRcode(ticketId);
-    };
     fetchMinted();
-  }, [connectedAccount]);
+  }, [connectedAccount,ticketId]);
   return (
     <div className='bg-[#2db369] shadow-md rounded  text-white'>
-      <div className='flex gap-4 h-48'>
+      <div className='flex gap-4 h-52'>
         <div className='flex flex-col gap-2 w-5/12  sm:w-2/5  bg-[#000] justify-center items-center'>
           <FaTicketAlt className='text-5xl' />
           <h4 className='text-sm font-semibold'>
@@ -164,45 +140,19 @@ const TicketCard = ({
           </h2>
           <div className='flex  justify-between'>
             <button
-              className='w-40 my-2 bg-[#fff] text-gray-800 text-base rounded-2xl hover:bg-gray-100 hover:border-none shadow-xl font-semibold'
+              className='w-40 my-2 py-1 bg-[#fff] text-gray-800 text-base rounded-2xl hover:bg-gray-100 hover:border-none shadow-xl font-semibold'
               onClick={() => {
+                watchQRcode(ticketId);
                 setGlobalState('modalQr', 'scale-100');
-                watchQRcode(Number(ticketId));
               }}
             >
               Watch QR
             </button>
           </div>
-          {renderButton()}
-
-          {completed && !sold ? (
-            <button
-              type='button'
-              className='w-40 bg-[#fff] text-gray-800 text-base py-1.5 px-2 rounded-2xl shadow-xl font-semibold'
-              disabled
-            >
-              Not selling
-            </button>
-          ) : sold && sold ? null : (
-            <>
-              {checkOwner ? null : (
-                <button
-                  type='button'
-                  className='w-40 bg-[#fff] text-gray-800 text-base py-1.5 px-2 rounded-2xl hover:bg-gray-100 hover:border-none shadow-xl font-semibold'
-                  onClick={() => {
-                    handlePurchase(),
-                    //@ts-ignore
-                      setGlobalState('ticket_id', Number(ticketId));
-                  }}
-                >
-                  Book now
-                </button>
-              )}
-            </>
-          )}
+          {renderButton(ticketId)}
         </div>
       </div>
-      <ShowRQ qr_code={qr_code} />
+      <ShowRQ />
     </div>
   );
 };

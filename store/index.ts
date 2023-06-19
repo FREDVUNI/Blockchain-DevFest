@@ -5,6 +5,7 @@ import { createGlobalState } from "react-hooks-global-state";
 
 const {setGlobalState, useGlobalState, getGlobalState }=createGlobalState({
   ticket_id: null,
+  qr_code:'',
   connectedAccount: '',
   modal: 'scale-0',
   modalQr: 'scale-0',
@@ -20,6 +21,12 @@ const {setGlobalState, useGlobalState, getGlobalState }=createGlobalState({
   sinleEvent: null,
   contract: null,
   minted: [],
+  loadingTicketInfo: false,
+  //@ts-ignore 
+  qr_code: '',
+  ticket_index: null,
+  ticket_info: null,
+  singleTicket:null,
   });
 
   function minutesRemaining(timestamp: number) {

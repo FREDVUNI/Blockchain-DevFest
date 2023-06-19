@@ -17,9 +17,6 @@ export interface Ticket {
 
 const Events = () => {
   const [allEvents] = useGlobalState('allEvents'); 
-  const event = allEvents.find((item: { eventId: number; }) => item.eventId === 0);
-  console.log( "allEvents",allEvents);
-  
   return (
     <>
       <div className='mx-4 sm:mx-0 grid grid-cols-1  gap-2 sm:grid-cols-2 sm:gap-4'>

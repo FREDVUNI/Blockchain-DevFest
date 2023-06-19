@@ -13,7 +13,6 @@ const Eventdetails = () => {
   const { id } = router.query;
   const [sinleEvent] = useGlobalState('sinleEvent')
   const eventDetails = sinleEvent
-  console.log("sinleEvent ",sinleEvent);
   
   const [active, setActive] = useState(false);
 //@ts-ignore
@@ -93,7 +92,7 @@ const Eventdetails = () => {
                             category: string;
                             eventDate?: number | undefined;
                             eventTitle: string;
-                            sold: boolean;
+                            isSold: boolean;
                             ticketId: number;
                             ticketPrice: string;
                             eventVenue: string;
@@ -105,7 +104,7 @@ const Eventdetails = () => {
                             category,
                             eventDate,
                             eventTitle,
-                            sold,
+                            isSold,
                             ticketId,
                             ticketPrice,
                             eventId,
@@ -114,7 +113,7 @@ const Eventdetails = () => {
                             <Ticket
                               category={category}
                               eventDate={eventDate}
-                              sold={sold}
+                              isSold={isSold}
                               //@ts-ignore
                               eventVenue={
                                 //@ts-ignore
@@ -153,7 +152,7 @@ const Eventdetails = () => {
                             category: string;
                             eventDate?: number | undefined;
                             eventTitle: string;
-                            sold: boolean;
+                            isSold: boolean;
                             ticketId: number;
                             ticketPrice: string;
                             eventVenue: string;
@@ -166,7 +165,7 @@ const Eventdetails = () => {
                             eventDate,
                             eventId,
                             eventTitle,
-                            sold,
+                            isSold,
                             ticketId,
                             ticketPrice,
                           } = item;
@@ -174,7 +173,7 @@ const Eventdetails = () => {
                             <Ticket
                               category={category}
                               eventDate={eventDate}
-                              sold={sold}
+                              isSold={isSold}
                               //@ts-ignore
                               eventVenue={
                                 //@ts-ignore

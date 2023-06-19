@@ -5,8 +5,6 @@ import { useGlobalState } from 'store';
 
 const MyTickets = () => {
   const [myTickets] = useGlobalState('myTickets');
-  console.log("Ticket", myTickets);
-  
   
   return (
     <div className='py-24 sm:py-28 max-w-4xl mx-auto text-gray-50'>
@@ -24,7 +22,6 @@ const MyTickets = () => {
             eventId,
             eventTitle,
             eventVenue,
-            sold,
             ticketId,
             ticketPrice,
             //@ts-ignore
@@ -34,7 +31,6 @@ const MyTickets = () => {
               <TicketCard
                 category={category}
                 eventDate={eventDate}
-                sold={sold}
                 eventVenue={eventVenue}
                 eventId={eventId}
                 eventTitle={eventTitle}

@@ -212,7 +212,7 @@ const NavBar = () => {
   }, [provider, disconnect]);
 
   return (
-    <div className=' sm:px-8 bg-[#2db369] z-8 mx-auto w-full fixed shadow-sm text-gray-50'>
+    <div className=' sm:px-8 bg-[#2db369] z-20 mx-auto w-full fixed shadow-sm text-gray-50'>
       <div className=' flex items-center justify-between py-4 sm:mx-0 mx-4 '>
         <Link href={'/'}>
           <h1 className='font-black text-4xl'>Yob</h1>
@@ -287,7 +287,7 @@ const NavBar = () => {
           {web3Provider ? (
             <button
               type='button'
-              className=' sm:block bg-white font-medium  px-2.5 sm:px-3 py-1.5 sm:py-2 rounded text-gray-900 my-1 cursor-pointer'
+              className='hidden sm:block bg-white font-medium  px-2.5 sm:px-3 py-1.5 sm:py-2 rounded text-gray-900 my-1 cursor-pointer'
               onClick={disconnect}
             >
               Disconnect

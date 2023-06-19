@@ -3,8 +3,9 @@ import React from 'react';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { setGlobalState, useGlobalState } from 'store';
 
-const ShowRQ = ({ qr_code }: any) => {
+const ShowRQ = () => {
   const [modalQr] = useGlobalState('modalQr');
+  const [qr_code] = useGlobalState('qr_code');
   const closeModal = () => {
     setGlobalState('modalQr', 'scale-0');
   };
