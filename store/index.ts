@@ -1,6 +1,3 @@
-
-import { ethers } from 'ethers';
-import { useEffect } from 'react';
 import { createGlobalState } from "react-hooks-global-state";
 
 const {setGlobalState, useGlobalState, getGlobalState }=createGlobalState({
